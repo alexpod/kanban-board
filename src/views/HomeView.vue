@@ -1,4 +1,65 @@
 <script setup>
+import { ref } from "vue";
+
+const columns = ref({})
+const cards = ref({})
+const board = ref([
+  {
+    id: 1,
+    title: 'Todo',
+    cards: [
+      {
+        id: 1,
+        image: 'item.jpg',
+        label: 'Hold',
+        title:'Drag me to "In progress" section',
+        description: ''
+      },
+      {
+        id: 2,
+        image: '',
+        label: 'In Backlog',
+        title:'Add a new feature',
+        description: ''
+      },
+      {
+        id: 3,
+        image: '',
+        label: 'Hold',
+        title:'Website Design: New cards for blog section and profile details',
+        description: ''
+      },
+      {
+        id: 4,
+        image: '',
+        label: '',
+        title:'Add a new feature',
+        description: ''
+      },
+    ]
+    
+  },
+  {
+    id: 2,
+    title: 'In progress',
+    cards: [
+      {
+        id: 1,
+        image: '',
+        label: 'In progress',
+        title:'Title 1',
+        description: ''
+      },
+      {
+        id: 2,
+        image: '',
+        label: 'Bug',
+        title:'Title 2',
+        description: ''
+      },
+    ]
+  },
+])
 
 </script>
 
@@ -6,8 +67,26 @@
 header.header
   .header__logo Kanban board
 .kanban-board
-  .kanban-board__container
-    .kanban-board__container-header Title
+  .kanban-board__container(
+    v-for="column in board"
+    :id="column.id"
+  )
+    .kanban-board__container-header {{ column.title }}
+    .kanban-board__card.card(
+      v-for="card in column.cards"
+      :id="card.id"
+    )
+      .card__image(
+        v-if="card.image"
+      )
+        img(
+          :src="`/images/${card.image}`"
+        )
+      .card__label.primary {{ card.label }}
+      .card__title {{ card.title }}
+
+  // .kanban-board__container
+    .kanban-board__container-header Todo
     .kanban-board__card.card
       .card__image
         img(
@@ -18,7 +97,7 @@ header.header
       .card__title Drag me to 'In progress' section
       .card__action
     .kanban-board__card.card
-      .card__label.primary In progress
+      .card__label.primary Hold
       .card__title Drag me to 'In progress' section
       .card__action
     .kanban-board__card.card
@@ -26,8 +105,8 @@ header.header
       .card__title Website Design: New cards for blog section and profile details
       .card__action
     .kanban-board__container-action + Add card
-  .kanban-board__container
-    .kanban-board__container-header Title
+  // .kanban-board__container
+    .kanban-board__container-header In progress
     .kanban-board__card.card
       .card__label.secondary In progress
       .card__title Drag me to 'In progress' section
