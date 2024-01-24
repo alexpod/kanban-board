@@ -1,6 +1,10 @@
 <script setup>
+import BoardCard from "@/components/BoardCard.vue";
 import { ref } from "vue";
+import draggable from 'vuedraggable'
 
+
+const drag = ref(false)
 const columns = ref({})
 const cards = ref({})
 const board = ref([
@@ -72,38 +76,14 @@ header.header
     :id="column.id"
   )
     .kanban-board__container-header {{ column.title }}
-    .kanban-board__card.card(
+    BoardCard.kanban-board__card(
       v-for="card in column.cards"
       :id="card.id"
+      :content="card"
+  
     )
-      .card__image(
-        v-if="card.image"
-      )
-        img(
-          :src="`/images/${card.image}`"
-        )
-      .card__label.primary {{ card.label }}
-      .card__title {{ card.title }}
 
-  // .kanban-board__container
-    .kanban-board__container-header Todo
-    .kanban-board__card.card
-      .card__image
-        img(
-          src="/images/item.jpg"
-          alt=""
-        )
-      .card__label.primary In Backlog
-      .card__title Drag me to 'In progress' section
-      .card__action
-    .kanban-board__card.card
-      .card__label.primary Hold
-      .card__title Drag me to 'In progress' section
-      .card__action
-    .kanban-board__card.card
-      .card__label.warning In progress
-      .card__title Website Design: New cards for blog section and profile details
-      .card__action
+
     .kanban-board__container-action + Add card
   // .kanban-board__container
     .kanban-board__container-header In progress
