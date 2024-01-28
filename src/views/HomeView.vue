@@ -1,8 +1,9 @@
 <script setup>
 import BoardCard from "@/components/BoardCard.vue";
-import { ref } from "vue";
 import draggable from 'vuedraggable'
+import { ref } from "vue";
 
+draggable
 
 const drag = ref(false)
 const columns = ref({})
@@ -15,28 +16,52 @@ const board = ref([
       {
         id: 1,
         image: 'item.jpg',
-        label: 'Hold',
+        labels: [
+          {
+            id: 1,
+            name: 'Hold',
+            class: 'primary'
+          },
+        ],
         title:'Drag me to "In progress" section',
         description: ''
       },
       {
         id: 2,
         image: '',
-        label: 'In Backlog',
+        labels: [
+          {
+            id: 1,
+            name: 'In Backlog',
+            class: 'secondary'
+          },
+        ],
         title:'Add a new feature',
         description: ''
       },
       {
         id: 3,
         image: '',
-        label: 'Hold',
+        labels: [
+          {
+            id: 1,
+            name: 'Hold',
+            class: 'primary'
+          },
+        ],
         title:'Website Design: New cards for blog section and profile details',
         description: ''
       },
       {
         id: 4,
         image: '',
-        label: '',
+        labels: [
+          {
+            id: 1,
+            name: 'In progress',
+            class: 'success'
+          },
+        ],
         title:'Add a new feature',
         description: ''
       },
@@ -50,14 +75,26 @@ const board = ref([
       {
         id: 1,
         image: '',
-        label: 'In progress',
+        labels: [
+          {
+            id: 1,
+            name: 'In progress',
+            class: 'success'
+          },
+        ],
         title:'Title 1',
         description: ''
       },
       {
         id: 2,
         image: '',
-        label: 'Bug',
+        labels: [
+          {
+            id: 1,
+            name: 'Bug',
+            class: 'danger'
+          },
+        ],
         title:'Title 2',
         description: ''
       },
@@ -66,7 +103,37 @@ const board = ref([
 ])
 
 </script>
+<!--template>
+    <div class="row">
+    <div class="col-3">
+      <h3>Draggable 1</h3>
+      <draggable
+        class="list-group"
+        :list="board1"
+        group="people"
+        itemKey="name"
+      >
+        <template #item="{ element, index }">
+          <div class="list-group-item">{{ element.name }} {{ index }}</div>
+        </template>
+      </draggable>
+    </div>
 
+    <div class="col-3">
+      <h3>Draggable 2</h3>
+      <draggable
+        class="list-group"
+        :list="list2"
+        group="people"
+        itemKey="name"
+      >
+        <template #item="{ element, index }">
+          <div class="list-group-item">{{ element.name }} {{ index }}</div>
+        </template>
+      </draggable>
+    </div>
+  </div>
+</template-->
 <template lang="pug">
 header.header
   .header__logo Kanban board
@@ -76,12 +143,29 @@ header.header
     :id="column.id"
   )
     .kanban-board__container-header {{ column.title }}
-    BoardCard.kanban-board__card(
-      v-for="card in column.cards"
-      :id="card.id"
-      :content="card"
-  
-    )
+    .kanban-board__card-wrapper
+      draggable(
+        :list="column.cards"
+        itemKey="title"
+        group="people"
+      )
+        template(
+          #item="{ element, index }"
+        )
+          .kanban-board__card.card
+            .card__image(
+              v-if="element.image"
+            )
+              img(
+                :src="`/images/${element.image}`"
+                alt=""
+              )
+            .card__label(
+              v-if="element.labels"
+              v-for="label in element.labels"
+              :class="label.class"
+            ) {{ label.name }}
+            .card__title {{ element.title }}
 
 
     .kanban-board__container-action + Add card
