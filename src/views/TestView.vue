@@ -7,6 +7,12 @@
         :list="list1"
         group="people"
         itemKey="name"
+        :animation="200"
+        :component-data="{
+          tag: 'ul',
+          type: 'transition-group',
+          name: !drag ? 'flip-list' : null
+        }"
       >
         <template #item="{ element, index }">
           <div class="list-group-item">{{ element.name }} {{ index }}</div>
@@ -21,6 +27,12 @@
         :list="list2"
         group="people"
         itemKey="name"
+        :animation="200"
+        :component-data="{
+          tag: 'ul',
+          type: 'transition-group',
+          name: !drag ? 'flip-list' : null,
+        }"
       >
         <template #item="{ element, index }">
           <div class="list-group-item">{{ element.name }} {{ index }}</div>
@@ -109,5 +121,8 @@ export default {
     font-weight: 400;
     line-height: 1.5;
     color: #212529;
+}
+.sortable-ghost {
+
 }
 </style>

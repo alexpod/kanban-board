@@ -138,6 +138,8 @@ const board = ref([
 header.header
   .header__logo Kanban board
 .kanban-board
+  h1 Draggable
+.kanban-board
   .kanban-board__container(
     v-for="column in board"
     :id="column.id"
@@ -148,6 +150,7 @@ header.header
         :list="column.cards"
         itemKey="title"
         group="people"
+        :animation="200"
       )
         template(
           #item="{ element, index }"
@@ -238,4 +241,13 @@ header.header
   }
 }
 
+.sortable-chosen {
+  opacity: .7;
+  border: 1px solid #616161;
+  * {
+    // visibility: hidden;
+    filter: contrast(0);
+    opacity: .5;
+  }
+}
 </style>
